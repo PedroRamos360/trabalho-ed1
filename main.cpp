@@ -24,21 +24,11 @@ struct Aluno {
     string matricula;
     string nome;
     string curso;
-
-    void criar(string matricula1, string nome1) {
-        matricula = matricula1;
-        nome = nome1;
-    }
 };
 
 struct Professor {
     string codigo;
     string nome;
-
-    void criar(string codigo1, string nome1) {
-        codigo = codigo1;
-        nome = nome1;
-    }
 };
 
 struct Disciplina {
@@ -46,28 +36,326 @@ struct Disciplina {
     string curso;
     string nome;
     int carga_horaria;
-
-    void criar(string codigo1, string curso1, string nome1, int carga_horaria1) {
-        codigo = codigo1;
-        curso = curso1;
-        nome = nome1;
-        carga_horaria = carga_horaria1;
-    }
 };
 
 struct Turma {
+    string codigo;
+    list<Aluno> alunos;
+    Professor professor;
+    Disciplina disciplina;
+};
+
+Aluno buscar_aluno(list<Aluno>* alunos, string matricula) {
+    for (auto aluno : *alunos) {
+        if (aluno.matricula == matricula) {
+            return aluno;
+        }
+    }
+    return Aluno();
+}
+
+Professor buscar_professor(list<Professor>* professores, string codigo) {
+    for (auto professor : *professores) {
+        if (professor.codigo == codigo) {
+            return professor;
+        }
+    }
+    return Professor();
+}
+
+Disciplina buscar_disciplina(list<Disciplina>* disciplinas, string codigo) {
+    for (auto disciplina : *disciplinas) {
+        if (disciplina.codigo == codigo) {
+            return disciplina;
+        }
+    }
+    return Disciplina();
+}
+
+Turma buscar_turma(list<Turma>* turmas, string codigo) {
+    for (auto turma : *turmas) {
+        if (turma.codigo == codigo) {
+            return turma;
+        }
+    }
+    return Turma();
+}
+
+void inserir_aluno(list<Aluno>* alunos) {
+    Aluno novo_aluno;
+    cout << "Matricula: ";
+    cin >> novo_aluno.matricula;
+
+    cout << "Nome: ";
+    cin.ignore();
+    getline(cin, novo_aluno.nome);
+
+    cout << "Curso: ";
+    getline(cin, novo_aluno.curso);
+
+    alunos->push_back(novo_aluno);
+    cout << "Aluno inserido com sucesso!" << endl;
+}
+
+void inserir_professor(list<Professor>* professores) {
+    Professor novo_professor;
+    cout << "Codigo: ";
+    cin >> novo_professor.codigo;
+
+    cout << "Nome: ";
+    cin.ignore();
+    getline(cin, novo_professor.nome);
+
+    professores->push_back(novo_professor);
+    cout << "Professor inserido com sucesso!" << endl;
+}
+
+void inserir_disciplina(list<Disciplina>* disciplinas) {
+    Disciplina nova_disciplina;
+    cout << "Codigo: ";
+    cin >> nova_disciplina.codigo;
+
+    cout << "Curso: ";
+    cin.ignore();
+    getline(cin, nova_disciplina.curso);
+
+    cout << "Nome: ";
+    getline(cin, nova_disciplina.nome);
+
+    cout << "Carga horaria: ";
+    cin >> nova_disciplina.carga_horaria;
+
+    disciplinas->push_back(nova_disciplina);
+    cout << "Disciplina inserida com sucesso!" << endl;
+}
+
+void inserir_turma(list<Turma>* turmas, list<Disciplina>* disciplinas) {
+    Turma nova_turma;
     list<Aluno> alunos;
     Professor professor;
 
-    void criar(list<Aluno> alunos1, Professor professor1) {
-        alunos = alunos1;
-        professor = professor1;
+    string codigo_disciplina;
+
+    cout << "Codigo da turma: ";
+    cin >> nova_turma.codigo;
+
+    cout << "Codigo da disciplina: ";
+    cin >> codigo_disciplina;
+
+    nova_turma.disciplina = buscar_disciplina(disciplinas, codigo_disciplina);
+    nova_turma.alunos = alunos;
+    nova_turma.professor = professor;
+
+    turmas->push_back(nova_turma);
+    cout << "Turma inserida com sucesso!" << endl;
+}
+
+void excluir_aluno(list<Aluno>* alunos) {
+    string matricula;
+    cout << "Matricula: ";
+    cin >> matricula;
+
+    for (auto it = alunos->begin(); it != alunos->end(); it++) {
+        if (it->matricula == matricula) {
+            alunos->erase(it);
+            cout << "Aluno deletado com sucesso!" << endl;
+            return;
+        }
     }
 
-    void inserir_aluno(Aluno aluno) {
-        alunos.push_back(aluno);
+    cout << "Aluno nao encontrado!" << endl;
+}
+
+void excluir_professor(list<Professor>* professores) {
+    string codigo;
+    cout << "Codigo: ";
+    cin >> codigo;
+
+    for (auto it = professores->begin(); it != professores->end(); it++) {
+        if (it->codigo == codigo) {
+            professores->erase(it);
+            cout << "Professor deletado com sucesso!" << endl;
+            return;
+        }
     }
-};
+
+    cout << "Professor nao encontrado!" << endl;
+}
+
+void excluir_disciplina(list<Disciplina>* disciplinas) {
+    string codigo;
+    cout << "Codigo: ";
+    cin >> codigo;
+
+    for (auto it = disciplinas->begin(); it != disciplinas->end(); it++) {
+        if (it->codigo == codigo) {
+            disciplinas->erase(it);
+            cout << "Disciplina deletada com sucesso!" << endl;
+            return;
+        }
+    }
+
+    cout << "Disciplina nao encontrada!" << endl;
+}
+
+void excluir_turma(list<Turma>* turmas) {
+    string codigo;
+    cout << "Codigo: ";
+    cin >> codigo;
+
+    for (auto it = turmas->begin(); it != turmas->end(); it++) {
+        if (it->codigo == codigo) {
+            turmas->erase(it);
+            cout << "Turma deletada com sucesso!" << endl;
+            return;
+        }
+    }
+
+    cout << "Turma nao encontrada!" << endl;
+}
+
+void visualizar_aluno(list<Aluno>* alunos) {
+    string matricula;
+    cout << "Matricula: ";
+    cin >> matricula;
+
+    Aluno aluno = buscar_aluno(alunos, matricula);
+
+    if (aluno.matricula.empty()) {
+        cout << "Aluno nao encontrado!" << endl;
+        return;
+    }
+
+    cout << "Matricula: " << aluno.matricula << endl;
+    cout << "Nome: " << aluno.nome << endl;
+    cout << "Curso: " << aluno.curso << endl;
+}
+
+void visualizar_professor(list<Professor>* professores) {
+    string codigo;
+    cout << "Codigo: ";
+    cin >> codigo;
+
+    Professor professor = buscar_professor(professores, codigo);
+
+    if (professor.codigo.empty()) {
+        cout << "Professor nao encontrado!" << endl;
+        return;
+    }
+
+    cout << "Codigo: " << professor.codigo << endl;
+    cout << "Nome: " << professor.nome << endl;
+}
+
+void visualizar_disciplina(list<Disciplina>* disciplinas) {
+    string codigo;
+    cout << "Codigo: ";
+    cin >> codigo;
+
+    Disciplina disciplina = buscar_disciplina(disciplinas, codigo);
+
+    if (disciplina.codigo.empty()) {
+        cout << "Disciplina nao encontrada!" << endl;
+        return;
+    }
+
+    cout << "Codigo: " << disciplina.codigo << endl;
+    cout << "Nome: " << disciplina.nome << endl;
+    cout << "Curso: " << disciplina.curso << endl;
+    cout << "Carga horaria: " << disciplina.carga_horaria << endl;
+}
+
+void visualizar_turma(list<Turma>* turmas) {
+    string codigo;
+    cout << "Codigo: ";
+    cin >> codigo;
+
+    Turma turma = buscar_turma(turmas, codigo);
+
+    if (turma.codigo.empty()) {
+        cout << "Turma nao encontrada!" << endl;
+        return;
+    }
+
+    cout << "Codigo: " << turma.codigo << endl;
+    cout << "Disciplina: " << turma.disciplina.nome << endl;
+    cout << "Professor: " << turma.professor.nome << endl;
+    cout << "Alunos: " << endl;
+
+    for (auto aluno : turma.alunos) {
+        cout << "- " << aluno.nome << endl;
+    }
+}
+
+void inserir_professor_turma(list<Turma>* turmas, list<Professor>* professores) {
+    string codigo_turma;
+    string codigo_professor;
+
+    cout << "Codigo da turma: ";
+    cin >> codigo_turma;
+
+    cout << "Codigo do professor: ";
+    cin >> codigo_professor;
+
+    Turma turma = buscar_turma(turmas, codigo_turma);
+    Professor professor = buscar_professor(professores, codigo_professor);
+
+    if (turma.codigo.empty()) {
+        cout << "Turma nao encontrada!" << endl;
+        return;
+    }
+
+    if (professor.codigo.empty()) {
+        cout << "Professor nao encontrado!" << endl;
+        return;
+    }
+
+    turma.professor = professor;
+    // excluir turma antiga
+    for (auto it = turmas->begin(); it != turmas->end(); it++) {
+        if (it->codigo == codigo_turma) {
+            turmas->erase(it);
+            break;
+        }
+    }
+    // inserir turma nova
+    turmas->push_back(turma);
+}
+
+void inserir_aluno_turma(list<Turma>* turmas, list<Aluno>* alunos) {
+    string codigo_turma;
+    string matricula_aluno;
+
+    cout << "Codigo da turma: ";
+    cin >> codigo_turma;
+
+    cout << "Matricula do aluno: ";
+    cin >> matricula_aluno;
+
+    Turma turma = buscar_turma(turmas, codigo_turma);
+    Aluno aluno = buscar_aluno(alunos, matricula_aluno);
+
+    if (turma.codigo.empty()) {
+        cout << "Turma nao encontrada!" << endl;
+        return;
+    }
+
+    if (aluno.matricula.empty()) {
+        cout << "Aluno nao encontrado!" << endl;
+        return;
+    }
+
+    turma.alunos.push_back(aluno);
+    // excluir turma antiga
+    for (auto it = turmas->begin(); it != turmas->end(); it++) {
+        if (it->codigo == codigo_turma) {
+            turmas->erase(it);
+            break;
+        }
+    }
+    // inserir turma nova
+    turmas->push_back(turma);
+}
 
 int main() {
     list<Aluno> alunos;
@@ -88,314 +376,73 @@ int main() {
         cout << "6 - Excluir professor" << endl;
         cout << "7 - Excluir disciplina" << endl;
         cout << "8 - Excluir turma" << endl;
-        cout << "9 - Buscar aluno" << endl;
-        cout << "10 - Buscar professor" << endl;
-        cout << "11 - Buscar disciplina" << endl;
-        cout << "12 - Buscar turma" << endl;
-        cout << "13 - Visualizar aluno" << endl;
-        cout << "14 - Visualizar professor" << endl;
-        cout << "15 - Visualizar disciplina" << endl;
-        cout << "16 - Visualizar turma" << endl;
-        cout << "17 - Inserir professor em turma" << endl;
-        cout << "18 - Inserir aluno em turma" << endl;
-        cout << "19 - Sair" << endl;
+        cout << "9 - Visualizar aluno" << endl;
+        cout << "10 - Visualizar professor" << endl;
+        cout << "11 - Visualizar disciplina" << endl;
+        cout << "12 - Visualizar turma" << endl;
+        cout << "13 - Inserir professor em turma" << endl;
+        cout << "14 - Inserir aluno em turma" << endl;
+        cout << "15 - Sair" << endl;
 
         cin >> op;
 
         switch(op) {
             case 1: {
-                Aluno novo_aluno;
-                cout << "Matricula: ";
-                cin >> novo_aluno.matricula;
-
-                cout << "Nome: ";
-                cin.ignore();
-                getline(cin, novo_aluno.nome);
-
-                cout << "Curso: ";
-                cin.ignore();
-                getline(cin, novo_aluno.curso);
-
-                alunos.push_back(novo_aluno);
-
+                inserir_aluno(&alunos);
                 break;
             }
             case 2: {
-                Professor novo_professor;
-                cout << "Codigo: ";
-                cin >> novo_professor.codigo;
-
-                cout << "Nome: ";
-                cin.ignore();
-                getline(cin, novo_professor.nome);
-
-                professores.push_back(novo_professor);
-
+                inserir_professor(&professores);
                 break;
             }
             case 3: {
-                Disciplina nova_disciplina;
-                cout << "Codigo: ";
-                cin >> nova_disciplina.codigo;
-
-                cout << "Curso: ";
-                cin.ignore();
-                getline(cin, nova_disciplina.curso);
-
-                cout << "Nome: ";
-                cin.ignore();
-                getline(cin, nova_disciplina.nome);
-
-                cout << "Carga horária: ";
-                cin >> nova_disciplina.carga_horaria;
-
-                disciplinas.push_back(nova_disciplina);
-
+                inserir_disciplina(&disciplinas);
                 break;
             }
             case 4: {
-                Turma nova_turma;
-                list<Aluno> alunos_turma;
-                Professor professor_turma;
-
-                cout << "Professor: ";
-                cin >> professor_turma.codigo;
-
-                nova_turma.criar(alunos_turma, professor_turma);
-
-                turmas.push_back(nova_turma);
-
+                inserir_turma(&turmas, &disciplinas);
                 break;
             }
             case 5: {
-                string matricula;
-                cout << "Matricula: ";
-                cin >> matricula;
-
-                for (list<Aluno>::iterator it = alunos.begin(); it != alunos.end(); it++) {
-                    if (it->matricula == matricula) {
-                        alunos.erase(it);
-                        break;
-                    }
-                }
-
+                excluir_aluno(&alunos);
                 break;
             }
             case 6: {
-                string codigo;
-                cout << "Codigo: ";
-                cin >> codigo;
-
-                for (list<Professor>::iterator it = professores.begin(); it != professores.end(); it++) {
-                    if (it->codigo == codigo) {
-                        professores.erase(it);
-                        break;
-                    }
-                }
-
+                excluir_professor(&professores);
                 break;
             }
             case 7: {
-                string codigo;
-                cout << "Codigo: ";
-                cin >> codigo;
-
-                for (list<Disciplina>::iterator it = disciplinas.begin(); it != disciplinas.end(); it++) {
-                    if (it->codigo == codigo) {
-                        disciplinas.erase(it);
-                        break;
-                    }
-                }
-
+                excluir_disciplina(&disciplinas);
                 break;
             }
             case 8: {
-                string codigo;
-                cout << "Codigo: ";
-                cin >> codigo;
-
-                for (list<Turma>::iterator it = turmas.begin(); it != turmas.end(); it++) {
-                    if (it->professor.codigo == codigo) {
-                        turmas.erase(it);
-                        break;
-                    }
-                }
-
+                excluir_turma(&turmas);
                 break;
             }
             case 9: {
-                string matricula;
-                cout << "Matricula: ";
-                cin >> matricula;
-
-                for (list<Aluno>::iterator it = alunos.begin(); it != alunos.end(); it++) {
-                    if (it->matricula == matricula) {
-                        cout << "Matricula: " << it->matricula << endl;
-                        cout << "Nome: " << it->nome << endl;
-                        cout << "Curso: " << it->curso << endl;
-                        break;
-                    }
-                }
-
+                visualizar_aluno(&alunos);
                 break;
             }
             case 10: {
-                string codigo;
-                cout << "Codigo: ";
-                cin >> codigo;
-
-                for (list<Professor>::iterator it = professores.begin(); it != professores.end(); it++) {
-                    if (it->codigo == codigo) {
-                        cout << "Codigo: " << it->codigo << endl;
-                        cout << "Nome: " << it->nome << endl;
-                        break;
-                    }
-                }
-
+                visualizar_professor(&professores);
                 break;
             }
             case 11: {
-                string codigo;
-                cout << "Codigo: ";
-                cin >> codigo;
-
-                for (list<Disciplina>::iterator it = disciplinas.begin(); it != disciplinas.end(); it++) {
-                    if (it->codigo == codigo) {
-                        cout << "Codigo: " << it->codigo << endl;
-                        cout << "Nome: " << it->nome << endl;
-                        cout << "Curso: " << it->curso << endl;
-                        cout << "Carga horária: " << it->carga_horaria << endl;
-                        break;
-                    }
-                }
-
+                visualizar_disciplina(&disciplinas);
                 break;
             }
             case 12: {
-                string codigo;
-                cout << "Codigo: ";
-                cin >> codigo;
-
-                for (list<Turma>::iterator it = turmas.begin(); it != turmas.end(); it++) {
-                    if (it->professor.codigo == codigo) {
-                        cout << "Professor: " << it->professor.codigo << endl;
-                        cout << "Alunos: " << endl;
-                        for (list<Aluno>::iterator it2 = it->alunos.begin(); it2 != it->alunos.end(); it2++) {
-                            cout << it2->matricula << endl;
-                        }
-                        break;
-                    }
-                }
-
+                visualizar_turma(&turmas);
                 break;
             }
             case 13: {
-                string matricula;
-                cout << "Matricula: ";
-                cin >> matricula;
-
-                for (list<Turma>::iterator it = turmas.begin(); it != turmas.end(); it++) {
-                    for (list<Aluno>::iterator it2 = it->alunos.begin(); it2 != it->alunos.end(); it2++) {
-                        if (it2->matricula == matricula) {
-                            cout << "Professor: " << it->professor.codigo << endl;
-                            cout << "Alunos: " << endl;
-                            for (list<Aluno>::iterator it3 = it->alunos.begin(); it3 != it->alunos.end(); it3++) {
-                                cout << it3->matricula << endl;
-                            }
-                            break;
-                        }
-                    }
-                }
-
+                inserir_professor_turma(&turmas, &professores);
                 break;
             }
             case 14: {
-                string codigo;
-                cout << "Codigo: ";
-                cin >> codigo;
-
-                for (list<Turma>::iterator it = turmas.begin(); it != turmas.end(); it++) {
-                    if (it->professor.codigo == codigo) {
-                        cout << "Professor: " << it->professor.codigo << endl;
-                        cout << "Alunos: " << endl;
-                        for (list<Aluno>::iterator it2 = it->alunos.begin(); it2 != it->alunos.end(); it2++) {
-                            cout << it2->matricula << endl;
-                        }
-                        break;
-                    }
-                }
-
+                inserir_aluno_turma(&turmas, &alunos);
                 break;
             }
-            case 15: {
-                string codigo;
-                cout << "Codigo: ";
-                cin >> codigo;
-
-                for (list<Disciplina>::iterator it = disciplinas.begin(); it != disciplinas.end(); it++) {
-                    if (it->codigo == codigo) {
-                        cout << "Codigo: " << it->codigo << endl;
-                        cout << "Nome: " << it->nome << endl;
-                        cout << "Curso: " << it->curso << endl;
-                        cout << "Carga horária: " << it->carga_horaria << endl;
-                        break;
-                    }
-                }
-
-                break;
-            }
-            case 16: {
-                string codigo;
-                cout << "Codigo: ";
-                cin >> codigo;
-
-                for (list<Disciplina>::iterator it = disciplinas.begin(); it != disciplinas.end(); it++) {
-                    if (it->codigo == codigo) {
-                        cout << "Codigo: " << it->codigo << endl;
-                        cout << "Nome: " << it->nome << endl;
-                        cout << "Curso: " << it->curso << endl;
-                        cout << "Carga horária: " << it->carga_horaria << endl;
-                        break;
-                    }
-                }
-
-                break;
-            }
-            case 17: {
-                string codigo;
-                cout << "Codigo: ";
-                cin >> codigo;
-
-                for (list<Disciplina>::iterator it = disciplinas.begin(); it != disciplinas.end(); it++) {
-                    if (it->codigo == codigo) {
-                        cout << "Codigo: " << it->codigo << endl;
-                        cout << "Nome: " << it->nome << endl;
-                        cout << "Curso: " << it->curso << endl;
-                        cout << "Carga horária: " << it->carga_horaria << endl;
-                        break;
-                    }
-                }
-
-                break;
-            }
-            case 18: {
-                string codigo;
-                cout << "Codigo: ";
-                cin >> codigo;
-
-                for (list<Disciplina>::iterator it = disciplinas.begin(); it != disciplinas.end(); it++) {
-                    if (it->codigo == codigo) {
-                        cout << "Codigo: " << it->codigo << endl;
-                        cout << "Nome: " << it->nome << endl;
-                        cout << "Curso: " << it->curso << endl;
-                        cout << "Carga horária: " << it->carga_horaria << endl;
-                        break;
-                    }
-                }
-
-                break;
-            }
-            
             default:
                 loop = false;
                 break;
