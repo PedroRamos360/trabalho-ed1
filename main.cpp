@@ -153,6 +153,248 @@ int main() {
 
                 break;
             }
+            case 4: {
+                Turma nova_turma;
+                list<Aluno> alunos_turma;
+                Professor professor_turma;
+
+                cout << "Professor: ";
+                cin >> professor_turma.codigo;
+
+                nova_turma.criar(alunos_turma, professor_turma);
+
+                turmas.push_back(nova_turma);
+
+                break;
+            }
+            case 5: {
+                string matricula;
+                cout << "Matricula: ";
+                cin >> matricula;
+
+                for (list<Aluno>::iterator it = alunos.begin(); it != alunos.end(); it++) {
+                    if (it->matricula == matricula) {
+                        alunos.erase(it);
+                        break;
+                    }
+                }
+
+                break;
+            }
+            case 6: {
+                string codigo;
+                cout << "Codigo: ";
+                cin >> codigo;
+
+                for (list<Professor>::iterator it = professores.begin(); it != professores.end(); it++) {
+                    if (it->codigo == codigo) {
+                        professores.erase(it);
+                        break;
+                    }
+                }
+
+                break;
+            }
+            case 7: {
+                string codigo;
+                cout << "Codigo: ";
+                cin >> codigo;
+
+                for (list<Disciplina>::iterator it = disciplinas.begin(); it != disciplinas.end(); it++) {
+                    if (it->codigo == codigo) {
+                        disciplinas.erase(it);
+                        break;
+                    }
+                }
+
+                break;
+            }
+            case 8: {
+                string codigo;
+                cout << "Codigo: ";
+                cin >> codigo;
+
+                for (list<Turma>::iterator it = turmas.begin(); it != turmas.end(); it++) {
+                    if (it->professor.codigo == codigo) {
+                        turmas.erase(it);
+                        break;
+                    }
+                }
+
+                break;
+            }
+            case 9: {
+                string matricula;
+                cout << "Matricula: ";
+                cin >> matricula;
+
+                for (list<Aluno>::iterator it = alunos.begin(); it != alunos.end(); it++) {
+                    if (it->matricula == matricula) {
+                        cout << "Matricula: " << it->matricula << endl;
+                        cout << "Nome: " << it->nome << endl;
+                        cout << "Curso: " << it->curso << endl;
+                        break;
+                    }
+                }
+
+                break;
+            }
+            case 10: {
+                string codigo;
+                cout << "Codigo: ";
+                cin >> codigo;
+
+                for (list<Professor>::iterator it = professores.begin(); it != professores.end(); it++) {
+                    if (it->codigo == codigo) {
+                        cout << "Codigo: " << it->codigo << endl;
+                        cout << "Nome: " << it->nome << endl;
+                        break;
+                    }
+                }
+
+                break;
+            }
+            case 11: {
+                string codigo;
+                cout << "Codigo: ";
+                cin >> codigo;
+
+                for (list<Disciplina>::iterator it = disciplinas.begin(); it != disciplinas.end(); it++) {
+                    if (it->codigo == codigo) {
+                        cout << "Codigo: " << it->codigo << endl;
+                        cout << "Nome: " << it->nome << endl;
+                        cout << "Curso: " << it->curso << endl;
+                        cout << "Carga horária: " << it->carga_horaria << endl;
+                        break;
+                    }
+                }
+
+                break;
+            }
+            case 12: {
+                string codigo;
+                cout << "Codigo: ";
+                cin >> codigo;
+
+                for (list<Turma>::iterator it = turmas.begin(); it != turmas.end(); it++) {
+                    if (it->professor.codigo == codigo) {
+                        cout << "Professor: " << it->professor.codigo << endl;
+                        cout << "Alunos: " << endl;
+                        for (list<Aluno>::iterator it2 = it->alunos.begin(); it2 != it->alunos.end(); it2++) {
+                            cout << it2->matricula << endl;
+                        }
+                        break;
+                    }
+                }
+
+                break;
+            }
+            case 13: {
+                string matricula;
+                cout << "Matricula: ";
+                cin >> matricula;
+
+                for (list<Turma>::iterator it = turmas.begin(); it != turmas.end(); it++) {
+                    for (list<Aluno>::iterator it2 = it->alunos.begin(); it2 != it->alunos.end(); it2++) {
+                        if (it2->matricula == matricula) {
+                            cout << "Professor: " << it->professor.codigo << endl;
+                            cout << "Alunos: " << endl;
+                            for (list<Aluno>::iterator it3 = it->alunos.begin(); it3 != it->alunos.end(); it3++) {
+                                cout << it3->matricula << endl;
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                break;
+            }
+            case 14: {
+                string codigo;
+                cout << "Codigo: ";
+                cin >> codigo;
+
+                for (list<Turma>::iterator it = turmas.begin(); it != turmas.end(); it++) {
+                    if (it->professor.codigo == codigo) {
+                        cout << "Professor: " << it->professor.codigo << endl;
+                        cout << "Alunos: " << endl;
+                        for (list<Aluno>::iterator it2 = it->alunos.begin(); it2 != it->alunos.end(); it2++) {
+                            cout << it2->matricula << endl;
+                        }
+                        break;
+                    }
+                }
+
+                break;
+            }
+            case 15: {
+                string codigo;
+                cout << "Codigo: ";
+                cin >> codigo;
+
+                for (list<Disciplina>::iterator it = disciplinas.begin(); it != disciplinas.end(); it++) {
+                    if (it->codigo == codigo) {
+                        cout << "Codigo: " << it->codigo << endl;
+                        cout << "Nome: " << it->nome << endl;
+                        cout << "Curso: " << it->curso << endl;
+                        cout << "Carga horária: " << it->carga_horaria << endl;
+                        break;
+                    }
+                }
+
+                break;
+            }
+            case 16: {
+                string codigo;
+                cout << "Codigo: ";
+                cin >> codigo;
+
+                for (list<Disciplina>::iterator it = disciplinas.begin(); it != disciplinas.end(); it++) {
+                    if (it->codigo == codigo) {
+                        cout << "Codigo: " << it->codigo << endl;
+                        cout << "Nome: " << it->nome << endl;
+                        cout << "Curso: " << it->curso << endl;
+                        cout << "Carga horária: " << it->carga_horaria << endl;
+                        break;
+                    }
+                }
+
+                break;
+            }
+            case 17: {
+                string codigo;
+                cout << "Codigo: ";
+                cin >> codigo;
+
+                for (list<Disciplina>::iterator it = disciplinas.begin(); it != disciplinas.end(); it++) {
+                    if (it->codigo == codigo) {
+                        cout << "Codigo: " << it->codigo << endl;
+                        cout << "Nome: " << it->nome << endl;
+                        cout << "Curso: " << it->curso << endl;
+                        cout << "Carga horária: " << it->carga_horaria << endl;
+                        break;
+                    }
+                }
+
+                break;
+            }
+            case 18: {
+                string codigo;
+                cout << "Codigo: ";
+                cin >> codigo;
+
+                for (list<Disciplina>::iterator it = disciplinas.begin(); it != disciplinas.end(); it++) {
+                    if (it->codigo == codigo) {
+                        cout << "Codigo: " << it->codigo << endl;
+                        cout << "Nome: " << it->nome << endl;
+                        cout << "Curso: " << it->curso << endl;
+                        cout << "Carga horária: " << it->carga_horaria << endl;
+                        break;
+                    }
+                }
+
+                break;
+            }
             
             default:
                 loop = false;
